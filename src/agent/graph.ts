@@ -4,6 +4,7 @@
  */
 import { StateGraph } from "@langchain/langgraph";
 import { RunnableConfig } from "@langchain/core/runnables";
+import { VertexAI } from "@langchain/google-vertexai";
 import { StateAnnotation } from "./state.js";
 
 /**
@@ -18,50 +19,16 @@ const callModel = async (
   state: typeof StateAnnotation.State,
   _config: RunnableConfig,
 ): Promise<typeof StateAnnotation.Update> => {
-  /**
-   * Do some work... (e.g. call an LLM)
-   * For example, with LangChain you could do something like:
-   *
-   * ```bash
-   * $ npm i @langchain/anthropic
-   * ```
-   *
-   * ```ts
-   * import { ChatAnthropic } from "@langchain/anthropic";
-   * const model = new ChatAnthropic({
-   *   model: "claude-3-5-sonnet-20240620",
-   *   apiKey: process.env.ANTHROPIC_API_KEY,
-   * });
-   * const res = await model.invoke(state.messages);
-   * ```
-   *
-   * Or, with an SDK directly:
-   *
-   * ```bash
-   * $ npm i openai
-   * ```
-   *
-   * ```ts
-   * import OpenAI from "openai";
-   * const openai = new OpenAI({
-   *   apiKey: process.env.OPENAI_API_KEY,
-   * });
-   *
-   * const chatCompletion = await openai.chat.completions.create({
-   *   messages: [{
-   *     role: state.messages[0]._getType(),
-   *     content: state.messages[0].content,
-   *   }],
-   *   model: "gpt-4o-mini",
-   * });
-   * ```
-   */
   console.log("Current state:", state);
+  const model = new VertexAI({
+    model: "claude-3-5-sonnet@20240620",
+  });
+  const results = await model.invoke("Hello");
   return {
     messages: [
       {
         role: "assistant",
-        content: `Hi there! How are you?`,
+        content: results,
       },
     ],
   };

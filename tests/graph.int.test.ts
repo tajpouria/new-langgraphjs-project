@@ -3,7 +3,7 @@ import { graph } from "../src/agent/graph.js";
 
 describe("Graph", () => {
   it("should process input through the graph", async () => {
-    const input = "What is the capital of France?";
+    const input = "What steps should I take to create a new expo app";
     const result = await graph.invoke({ input });
 
     expect(result).toBeDefined();
